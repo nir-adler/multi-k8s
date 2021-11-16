@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: backend
+  template:
+    metadata:
+      labels:
+        component: backend
+    spec:
+      containers:
+        - name: backend
+          image: dogliy/multi-backend
+          ports:
+            - containerPort: 8081
+          env:
+            - name: REDIS_HOST
+              value: redis-cluster-ip-service
+            - name: REDIS_PORT
+              value: '6379'
+            - name: PG_USER
+              value: postgres
+            - name: PG_HOST
+              value: postgres-cluster-ip-service
+            - name: PG_DATABASE
+              value: postgres
+            - name: PG_PASSWORD
+              value: password
+            - name: PG_PORT
+              value: '5432'
+
